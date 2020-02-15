@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
-public class Clientes implements Serializable {
+public class Cliente implements Serializable {
 	
 
 	private static final long serialVersionUID = 1L;
@@ -37,12 +37,12 @@ public class Clientes implements Serializable {
 	private String telefone;
 	
 	
-	public Clientes(){
+	public Cliente(){
 		
 	}
 	
 
-	public Clientes(Integer id, String nome, String email, String telefone) {
+	public Cliente(Integer id, String nome, String email, String telefone) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -111,7 +111,7 @@ public class Clientes implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Clientes other = (Clientes) obj;
+		Cliente other = (Cliente) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
