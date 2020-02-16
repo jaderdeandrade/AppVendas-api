@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.jda.app.domain.Cliente;
 import com.jda.app.repositories.ClienteRepository;
+import com.jda.app.service.exception.ObjectNotFoundException;
+
+
 
 @Service
 public class ClienteService {
@@ -16,8 +19,8 @@ public class ClienteService {
 	
 	public Cliente buscar(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);
-		return obj.orElse(null);
-
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 
 }
