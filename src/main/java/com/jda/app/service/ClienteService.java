@@ -4,11 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jda.app.domain.Cliente;
+import com.jda.app.dto.ClienteDTO;
+import com.jda.app.dto.ClienteNewDTO;
 import com.jda.app.repositories.ClienteRepository;
 import com.jda.app.service.exception.DataIntegrityException;
 import com.jda.app.service.exception.ObjectNotFoundException;
@@ -57,6 +64,22 @@ public class ClienteService {
 
 	public List<Cliente> findAll() {
 		return repo.findAll();
+	}	
+	
+
+	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
+	}
+
+	public Cliente fromDTO(ClienteDTO objDto) {
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(),objDto.getTelefone());
+	}
+
+	public Cliente fromDTO(ClienteNewDTO objDto) {
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(),objDto.getTelefone());
+
+		return cli;
 	}	
 
 }

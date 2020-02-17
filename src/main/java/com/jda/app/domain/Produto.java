@@ -1,14 +1,21 @@
 package com.jda.app.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -26,7 +33,7 @@ public class Produto  implements Serializable{
 	@Column(name = "nome")
 	private String nome;
 	
-	@NotEmpty
+
 	@Column(name = "preco")	
 	private Double preco;
 	
@@ -35,49 +42,87 @@ public class Produto  implements Serializable{
 	@Column(name = "descricao")
 	private String descricao;
 	
-	public Integer getId() {
-		return id;
-	}
+
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="id.produto")
+	private Set<ItemPedido> itens = new HashSet<>();
+
 	
 	public Produto() {
 		
 	}
-	
-	public Produto(Integer id, String nome,Double preco, String descricao) {
+
+
+	public Produto(Integer id, String nome, Double preco,String descricao) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
 		this.descricao = descricao;
 	}
+	
+	@JsonIgnore
+	public List<Pedido> GetPedidos(){
+		List<Pedido> lista = new ArrayList<Pedido>();
+		for (ItemPedido x: itens) {
+			lista.add(x.getPedido());
+		}
+		return lista;
+	}
+
+
+	public Integer getId() {
+		return id;
+	}
 
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
+
 	public String getNome() {
 		return nome;
 	}
+
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+
 	public Double getPreco() {
 		return preco;
 	}
+
+
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
+
+
+	
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+
+	
+
 	public String getDescricao() {
 		return descricao;
 	}
+
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	
+
 
 	@Override
 	public int hashCode() {
@@ -86,6 +131,7 @@ public class Produto  implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -103,10 +149,10 @@ public class Produto  implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
 
+
+
+
+
+	
 }
