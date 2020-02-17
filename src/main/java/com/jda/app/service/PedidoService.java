@@ -1,9 +1,11 @@
 package com.jda.app.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.jda.app.domain.ItemPedido;
@@ -13,6 +15,7 @@ import com.jda.app.domain.enums.EstadoPagamento;
 import com.jda.app.repositories.ItemPedidoRepository;
 import com.jda.app.repositories.PagamentoRepository;
 import com.jda.app.repositories.PedidoRepository;
+import com.jda.app.service.exception.DataIntegrityException;
 import com.jda.app.service.exception.ObjectNotFoundException;
 
 @Service
@@ -62,6 +65,26 @@ public class PedidoService {
 
 		return obj;
 	}
+
+
+
+	public Pedido update(Pedido obj) {
+		Pedido newObj = find(obj.getId());
+		return repo.save(newObj);
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir porque há pedidos relacionados");
+		}
+	}
+
+	public List<Pedido> findAll() {
+		return repo.findAll();
+	}	
 	
 
 }

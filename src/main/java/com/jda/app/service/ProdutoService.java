@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jda.app.domain.Cliente;
 import com.jda.app.domain.Produto;
 import com.jda.app.repositories.ProdutoRepository;
 import com.jda.app.service.exception.DataIntegrityException;

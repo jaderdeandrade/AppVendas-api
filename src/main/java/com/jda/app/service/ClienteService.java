@@ -4,14 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.jda.app.domain.Cliente;
 import com.jda.app.dto.ClienteDTO;
@@ -50,6 +48,7 @@ public class ClienteService {
 
 	public Cliente update(Cliente obj) {
 		Cliente newObj = find(obj.getId());
+		updateData(newObj,obj);
 		return repo.save(newObj);
 	}
 
@@ -81,5 +80,10 @@ public class ClienteService {
 
 		return cli;
 	}	
+	
+	private void updateData(Cliente newObj, Cliente obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+	}
 
 }

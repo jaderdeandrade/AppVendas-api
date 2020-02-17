@@ -39,7 +39,7 @@ public class Pedido implements Serializable {
 	private Cliente cliente;
 	
 
-	@OneToMany(mappedBy="id.pedido")
+	@OneToMany(mappedBy="id.pedido", cascade = CascadeType.ALL)
 	private Set<ItemPedido> itens = new HashSet<>();
 	
 	public Pedido() {
