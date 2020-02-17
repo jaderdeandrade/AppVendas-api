@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.jda.app.domain.Cliente;
 import com.jda.app.domain.Pedido;
+import com.jda.app.dto.ClienteDTO;
 import com.jda.app.service.PedidoService;
 
 @RestController
@@ -36,6 +38,21 @@ public class PedidoResource {
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	
+	
+	/*
+	 * @RequestMapping(value="/{id}", method=RequestMethod.PUT) public
+	 * ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO
+	 * objDto, @PathVariable Integer id) { Cliente obj = service.fromDTO(objDto);
+	 * obj.setId(id); obj = service.update(obj); return
+	 * ResponseEntity.noContent().build(); }
+	 */
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}	
 	
 	
 }
